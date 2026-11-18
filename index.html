@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiểm tra Hóa học 12 – Vật liệu polymer</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#1d2433;--muted:#5b6578;--line:#dde3ee;--pri:#1f6feb;--pri-d:#1857bd;--ok:#157f3b;--okbg:#e4f6ea;--bad:#b42318;--badbg:#fdeceb;--warn:#a15c00}
+@media (prefers-color-scheme:dark){:root{--bg:#10141c;--card:#181e29;--text:#e7ebf3;--muted:#9aa5b8;--line:#2a3344;--pri:#5b9bff;--pri-d:#7fb0ff;--ok:#5bd48a;--okbg:#12301f;--bad:#ff8a80;--badbg:#3a1a18;--warn:#f0b050}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 "Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:16px}
+header.top{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+h1{font-size:1.35rem;margin:0 0 4px}
+.sub{color:var(--muted);font-size:.92rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+label.f{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px}
+input[type=text]{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--text);font-size:1rem}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px 20px;font-size:1rem;font-weight:600;background:var(--pri);color:#fff}
+button:hover{background:var(--pri-d)}
+button.sec{background:transparent;color:var(--pri);border:1px solid var(--pri)}
+button:disabled{opacity:.5;cursor:not-allowed}
+.hide{display:none!important}
+.bar{position:sticky;top:0;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.timer{font-size:1.25rem;font-weight:700;font-variant-numeric:tabular-nums}
+.timer.low{color:var(--bad)}
+.nav{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;width:100%}
+.nav a{width:28px;height:28px;border-radius:6px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.78rem;color:var(--muted);text-decoration:none}
+.nav a.done{background:var(--pri);color:#fff;border-color:var(--pri)}
+.nav a.right{background:var(--ok);color:#fff;border-color:var(--ok)}
+.nav a.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px;scroll-margin-top:110px}
+.q .meta{font-size:.75rem;color:var(--muted);margin-bottom:6px}
+.q .stem{font-weight:600;margin-bottom:10px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:7px;cursor:pointer}
+.opt:hover{border-color:var(--pri)}
+.opt input{margin-top:6px}
+.opt.sel{border-color:var(--pri);background:color-mix(in srgb,var(--pri) 10%,transparent)}
+.opt.correct{border-color:var(--ok);background:var(--okbg)}
+.opt.incorrect{border-color:var(--bad);background:var(--badbg)}
+.locked .opt{cursor:default}
+.exp{margin-top:8px;padding:10px 12px;border-radius:8px;background:var(--bg);border-left:4px solid var(--pri);font-size:.92rem}
+.result{text-align:center}
+.score{font-size:2.6rem;font-weight:800;color:var(--pri)}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.92rem}
+th,td{border:1px solid var(--line);padding:6px 10px;text-align:left}
+th{background:var(--bg)}
+.note{color:var(--warn);font-size:.9rem}
+@media print{.bar,button,.nav{display:none!important}body{background:#fff;color:#000}.q,.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <h1>Kiểm tra Hóa học 12 – Vật liệu polymer</h1>
+  <div class="sub">40 câu trắc nghiệm · Thời gian 50 phút · Mỗi câu 0,25 điểm · Thang điểm 10 · Chương trình GDPT 2018</div>
+</header>
+
+<section id="intro" class="card">
+  <div class="grid">
+    <div><label class="f" for="name">Họ và tên *</label><input type="text" id="name" autocomplete="off"></div>
+    <div><label class="f" for="cls">Lớp</label><input type="text" id="cls" autocomplete="off"></div>
+    <div><label class="f" for="sbd">Số báo danh</label><input type="text" id="sbd" autocomplete="off"></div>
+  </div>
+  <p class="note" id="err" style="display:none">Vui lòng nhập họ và tên trước khi bắt đầu.</p>
+  <p class="sub">Mỗi câu chỉ có một đáp án đúng. Hết giờ bài sẽ được nộp tự động. Đáp án chỉ hiển thị sau khi nộp bài.</p>
+  <button id="start">Bắt đầu làm bài</button>
+</section>
+
+<section id="exam" class="hide">
+  <div class="bar">
+    <div><strong id="who"></strong><div class="sub">Đã làm: <span id="cnt">0</span>/40</div></div>
+    <div class="timer" id="timer">50:00</div>
+    <button id="submit">Nộp bài</button>
+    <div class="nav" id="nav"></div>
+  </div>
+  <div id="result" class="card result hide"></div>
+  <div id="qs"></div>
+  <div class="card" id="bottom"><button id="submit2">Nộp bài</button></div>
+</section>
+</div>
+
+<script>
+const PUB = [{"t": "Đại cương polymer", "l": "Biết", "q": "Phát biểu nào sau đây về polymer là đúng?", "o": ["Polymer là những hợp chất có phân tử khối rất lớn do nhiều đơn vị nhỏ (mắt xích) liên kết với nhau tạo nên.", "Polymer là hợp chất chỉ gồm một loại nguyên tử.", "Polymer luôn tan tốt trong nước.", "Polymer là hợp chất có phân tử khối nhỏ hơn 1000."]}, {"t": "Đại cương polymer", "l": "Biết", "q": "Chất nào sau đây là polymer thiên nhiên?", "o": ["Polyethylene", "Poly(vinyl chloride)", "Tinh bột", "Nylon-6,6"]}, {"t": "Chất dẻo – vật liệu composite", "l": "Biết", "q": "Monomer dùng để điều chế poly(vinyl chloride) (PVC) là", "o": ["CH₂=CH₂", "CH₂=CHCl", "CHCl=CHCl", "CH₂Cl–CH₂Cl"]}, {"t": "Đại cương polymer", "l": "Biết", "q": "Quá trình kết hợp nhiều phân tử nhỏ (monomer) thành phân tử lớn (polymer), đồng thời giải phóng các phân tử nhỏ như H₂O, được gọi là phản ứng", "o": ["trùng hợp.", "đồng trùng hợp.", "trùng ngưng.", "lưu hóa."]}, {"t": "Chất dẻo – vật liệu composite", "l": "Biết", "q": "Chất dẻo là", "o": ["những vật liệu polymer có tính dẻo.", "những vật liệu có tính đàn hồi rất cao.", "những kim loại có độ mềm lớn.", "những hợp chất có phân tử khối nhỏ, dễ bay hơi."]}, {"t": "Chất dẻo – vật liệu composite", "l": "Biết", "q": "Thủy tinh hữu cơ (plexiglas) được chế tạo từ polymer nào sau đây?", "o": ["Polyethylene", "Poly(vinyl chloride)", "Polystyrene", "Poly(methyl methacrylate)"]}, {"t": "Tơ", "l": "Biết", "q": "Tơ nào sau đây là tơ tổng hợp?", "o": ["Tơ tằm", "Tơ visco", "Tơ nylon-6,6", "Sợi bông"]}, {"t": "Cao su – keo dán", "l": "Biết", "q": "Cao su thiên nhiên là polymer của", "o": ["buta-1,3-diene.", "isoprene (2-methylbuta-1,3-diene).", "chloroprene.", "styrene."]}, {"t": "Chất dẻo – vật liệu composite", "l": "Biết", "q": "Vật liệu composite gồm các thành phần cơ bản là", "o": ["polymer và chất hóa dẻo.", "kim loại và phi kim.", "monomer và chất xúc tác.", "vật liệu nền và vật liệu cốt."]}, {"t": "Cao su – keo dán", "l": "Biết", "q": "Chất nào sau đây là keo dán có nguồn gốc tự nhiên?", "o": ["Keo epoxy", "Keo dán urea–formaldehyde", "Keo dán poly(phenol–formaldehyde)", "Hồ tinh bột"]}, {"t": "Cao su – keo dán", "l": "Biết", "q": "Cao su lưu hóa được tạo ra khi đun nóng cao su thô với", "o": ["lưu huỳnh.", "khí chlorine.", "khí hydrogen.", "khí oxygen."]}, {"t": "Đại cương polymer", "l": "Biết", "q": "Phát biểu nào sau đây về tính chất vật lí của polymer là đúng?", "o": ["Hầu hết polymer có nhiệt độ nóng chảy xác định.", "Hầu hết polymer là chất rắn, không bay hơi.", "Tất cả polymer đều tan tốt trong nước.", "Tất cả polymer đều dẫn điện tốt."]}, {"t": "Đại cương polymer", "l": "Biết", "q": "Polymer nào sau đây được điều chế bằng phản ứng trùng ngưng?", "o": ["Polyethylene", "Poly(vinyl chloride)", "Polystyrene", "Nylon-6,6"]}, {"t": "Tơ", "l": "Biết", "q": "Tơ nylon-6 (capron) được điều chế bằng cách trùng hợp", "o": ["caprolactam.", "hexamethylenediamine.", "adipic acid.", "ethylene glycol."]}, {"t": "Tơ", "l": "Biết", "q": "Monomer dùng để điều chế tơ nitron (olon) là", "o": ["CH₂=CH–CH₃", "CH₂=CH–Cl", "CH₂=CH–CN", "CH₂=CH–C₆H₅"]}, {"t": "Cao su – keo dán", "l": "Biết", "q": "Cao su buna được điều chế bằng cách trùng hợp", "o": ["isoprene.", "buta-1,3-diene.", "styrene.", "acrylonitrile."]}, {"t": "Chất dẻo – vật liệu composite", "l": "Hiểu", "q": "Phát biểu nào sau đây về chất dẻo là đúng?", "o": ["Chất dẻo chỉ gồm polymer, tuyệt đối không chứa thành phần nào khác.", "Mọi chất dẻo đều có tính đàn hồi cao hơn cao su.", "Thành phần chính của chất dẻo là polymer; ngoài ra có thể có chất hóa dẻo, chất độn, …", "Mọi chất dẻo đều dẫn điện tốt."]}, {"t": "Đại cương polymer", "l": "Hiểu", "q": "Polymer nào sau đây có cấu trúc mạng không gian?", "o": ["Cao su lưu hóa", "Polyethylene (PE)", "Poly(vinyl chloride) (PVC)", "Amylose"]}, {"t": "Tơ", "l": "Hiểu", "q": "Dãy gồm các tơ đều là tơ tổng hợp là", "o": ["tơ tằm, nylon-6,6, tơ nitron.", "tơ visco, tơ cellulose acetate, nylon-6.", "bông, len, tơ nitron.", "nylon-6,6, nylon-6, tơ nitron."]}, {"t": "Đại cương polymer", "l": "Hiểu", "q": "Phương trình hóa học nào sau đây biểu diễn đúng phản ứng trùng hợp vinyl chloride?", "o": ["nCH₂=CHCl → (–CH₂–CH₂Cl–)ₙ", "nCH₂=CHCl → (–CH₂–CHCl–)ₙ", "nCH₂=CHCl → (–CH₂–CHCl–)ₙ + nHCl", "nCHCl=CHCl → (–CH₂–CHCl–)ₙ"]}, {"t": "Đại cương polymer", "l": "Hiểu", "q": "Phản ứng nào sau đây thuộc loại phản ứng cắt mạch polymer?", "o": ["Lưu hóa cao su thành cao su lưu hóa.", "Thủy phân tinh bột thành glucose.", "Trùng hợp styrene thành polystyrene.", "Clo hóa PVC thành tơ clorin."]}, {"t": "Tơ", "l": "Hiểu", "q": "Cặp chất nào sau đây tham gia phản ứng trùng ngưng tạo poly(ethylene terephthalate)?", "o": ["CH₂=CH–CH=CH₂ và CH₂=CH–CN", "H₂N[CH₂]₆NH₂ và HOOC[CH₂]₄COOH", "HOCH₂CH₂OH và p-HOOC–C₆H₄–COOH", "C₆H₅OH và HCHO"]}, {"t": "Cao su – keo dán", "l": "Hiểu", "q": "Phát biểu nào sau đây về cao su là đúng?", "o": ["Cao su thiên nhiên là polymer của isoprene, có tính đàn hồi.", "Cao su buna được điều chế bằng phản ứng trùng ngưng.", "Cao su lưu hóa có mạch không phân nhánh.", "Cao su là polymer tan tốt trong nước."]}, {"t": "Tơ", "l": "Hiểu", "q": "Quần áo bằng tơ nylon-6,6 không nên giặt bằng xà phòng có tính kiềm mạnh hoặc ngâm trong dung dịch acid, vì", "o": ["mạch carbon–carbon dễ bị oxi hóa.", "nylon-6,6 tan nhiều trong nước.", "nylon-6,6 chứa nhóm –OH dễ bị acid hóa.", "nylon-6,6 chứa liên kết amide (–CO–NH–) dễ bị thủy phân trong môi trường acid và kiềm."]}, {"t": "Cao su – keo dán", "l": "Hiểu", "q": "Phát biểu nào sau đây về keo dán là đúng?", "o": ["Keo dán luôn là chất lỏng không màu, tan trong nước.", "Keo dán làm biến đổi bản chất của các vật liệu được kết dính.", "Keo dán là vật liệu có khả năng kết dính hai mảnh vật liệu giống nhau hoặc khác nhau mà không làm biến đổi bản chất các vật liệu được kết dính.", "Keo dán chỉ dùng để dán gỗ."]}, {"t": "Chất dẻo – vật liệu composite", "l": "Hiểu", "q": "Trong vật liệu composite, vai trò của vật liệu cốt và vật liệu nền là", "o": ["cốt chịu tải trọng, tăng độ bền cơ học; nền liên kết các phần tử cốt thành một khối thống nhất.", "cốt liên kết các phần tử nền; nền chịu tải trọng.", "cả hai chỉ có tác dụng tạo màu cho vật liệu.", "cốt có tác dụng làm dẻo; nền có tác dụng làm cứng."]}, {"t": "Cao su – keo dán", "l": "Hiểu", "q": "Cao su buna-N được điều chế bằng phản ứng đồng trùng hợp giữa buta-1,3-diene và chất nào sau đây?", "o": ["Styrene", "Isoprene", "Vinyl chloride", "Acrylonitrile"]}, {"t": "Đại cương polymer", "l": "Hiểu", "q": "Cho các polymer: polyethylene, poly(vinyl chloride), polystyrene, poly(methyl methacrylate), tinh bột, nylon-6,6. Số polymer được điều chế bằng phản ứng trùng hợp là", "o": ["3.", "4.", "5.", "6."]}, {"t": "Đại cương polymer", "l": "Vận dụng", "q": "Poly(vinyl chloride) (PVC) có phân tử khối trung bình 625 000. Hệ số polymer hóa n của PVC là", "o": ["5 000.", "10 000.", "15 000.", "20 000."]}, {"t": "Chất dẻo – vật liệu composite", "l": "Vận dụng", "q": "Trùng hợp 14 tấn ethylene với hiệu suất 85%, thu được m tấn polyethylene. Giá trị của m là", "o": ["14,0.", "16,5.", "10,5.", "11,9."]}, {"t": "Tơ", "l": "Vận dụng", "q": "Nylon-6,6 có công thức [–NH–(CH₂)₆–NH–CO–(CH₂)₄–CO–]ₙ. Một mẫu nylon-6,6 có phân tử khối trung bình 27 120. Số mắt xích trung bình trong một phân tử là", "o": ["120.", "100.", "240.", "150."]}, {"t": "Chất dẻo – vật liệu composite", "l": "Vận dụng", "q": "Để điều chế 1,00 tấn PVC bằng phản ứng trùng hợp vinyl chloride với hiệu suất 80%, khối lượng vinyl chloride cần dùng là", "o": ["0,80 tấn.", "1,00 tấn.", "1,25 tấn.", "1,60 tấn."]}, {"t": "Cao su – keo dán", "l": "Vận dụng", "q": "Lưu hóa cao su isoprene thu được loại cao su chứa 2,0% lưu huỳnh về khối lượng. Giả thiết mỗi cầu nối disulfide (–S–S–) thay thế 2 nguyên tử H của 2 mạch khác nhau. Số mắt xích isoprene trung bình ứng với một cầu nối –S–S– là (làm tròn đến hàng đơn vị)", "o": ["36.", "46.", "56.", "66."]}, {"t": "Cao su – keo dán", "l": "Vận dụng", "q": "Đồng trùng hợp buta-1,3-diene với styrene thu được cao su buna-S. Cho 26,2 gam cao su buna-S phản ứng vừa đủ với 16,0 gam Br₂ trong CCl₄ (Br₂ chỉ cộng vào liên kết C=C của mắt xích butadiene). Tỉ lệ số mắt xích butadiene : styrene trong cao su này là", "o": ["1 : 2.", "1 : 1.", "2 : 1.", "1 : 3."]}, {"t": "Đại cương polymer", "l": "Vận dụng", "q": "Clo hóa PVC bằng Cl₂ thu được một loại tơ clorin chứa 63,96% chlorine về khối lượng. Giả thiết 1 phân tử Cl₂ phản ứng với k mắt xích PVC (thế một nguyên tử H bằng Cl). Giá trị của k là", "o": ["1.", "2.", "3.", "4."]}, {"t": "Tơ", "l": "Vận dụng", "q": "Nylon-6,6 được điều chế từ hexamethylenediamine và adipic acid HOOC[CH₂]₄COOH (M = 146). Khối lượng adipic acid cần để sản xuất 2,26 tấn nylon-6,6 với hiệu suất 80% (tính theo adipic acid) là", "o": ["1,460 tấn.", "2,281 tấn.", "1,168 tấn.", "1,825 tấn."]}, {"t": "Tơ", "l": "Vận dụng", "q": "Đốt hai mẫu vải riêng biệt: mẫu X cháy chậm, có mùi khét giống mùi tóc cháy, tro vón cục; mẫu Y cháy nhanh, có mùi giống giấy cháy, tro nhẹ, tơi. Hai mẫu này là bông (cellulose) và tơ tằm (protein). Kết luận đúng là", "o": ["X là bông, Y là tơ tằm.", "X là tơ tằm, Y là bông.", "cả X và Y đều là tơ tằm.", "cả X và Y đều là bông."]}, {"t": "Chất dẻo – vật liệu composite", "l": "Vận dụng", "q": "Ba polymer X, Y, Z có đặc điểm: X trong suốt, cứng, bền, dùng làm kính máy bay, biển quảng cáo; Y nhẹ, dẻo, không chứa chlorine, dùng làm màng bọc thực phẩm; Z chứa chlorine, dùng làm ống dẫn nước, vỏ dây điện. X, Y, Z lần lượt là", "o": ["PE, PMMA, PVC.", "PVC, PE, PMMA.", "PMMA, PE, PVC.", "PMMA, PVC, PE."]}, {"t": "Đại cương polymer", "l": "Vận dụng", "q": "Một polymer X có phân tử khối trung bình 420 000 và hệ số polymer hóa n = 10 000. X là", "o": ["polypropylene (PP).", "polyethylene (PE).", "poly(vinyl chloride) (PVC).", "polystyrene (PS)."]}, {"t": "Chất dẻo – vật liệu composite", "l": "Vận dụng", "q": "Đốt cháy hoàn toàn m gam polypropylene (–CH₂–CH(CH₃)–)ₙ, thu được 3,36 lít CO₂ (đktc). Giá trị của m là", "o": ["1,40.", "1,05.", "4,20.", "2,10."]}];
+const SEC_B64 = "W3siYSI6ICJBIiwgImUiOiAiUG9seW1lciBsw6AgaOG7o3AgY2jhuqV0IGPDsyBwaMOibiB04butIGto4buRaSBy4bqldCBs4bubbiwgZG8gbmhp4buBdSBt4bqvdCB4w61jaCBsacOqbiBr4bq/dCB24bubaSBuaGF1IHThuqFvIHRow6BuaC4ifSwgeyJhIjogIkMiLCAiZSI6ICJUaW5oIGLhu5l0IGPDsyBz4bq1biB0cm9uZyB04buxIG5oacOqbjsgY8OhYyBjaOG6pXQgY8OybiBs4bqhaSBsw6AgcG9seW1lciB04buVbmcgaOG7o3AuIn0sIHsiYSI6ICJCIiwgImUiOiAiUFZDIMSRxrDhu6NjIHThuqFvIHThu6sgdmlueWwgY2hsb3JpZGUgQ0jigoI9Q0hDbC4ifSwgeyJhIjogIkMiLCAiZSI6ICJQaOG6o24g4bupbmcgdHLDuW5nIG5nxrBuZyBnaeG6o2kgcGjDs25nIHBow6JuIHThu60gbmjhu48gKEjigoJPLCBIQ2wsIOKApikgdHJvbmcgcXXDoSB0csOsbmggdOG6oW8gcG9seW1lci4ifSwgeyJhIjogIkEiLCAiZSI6ICJDaOG6pXQgZOG6u28gbMOgIHbhuq10IGxp4buHdSBwb2x5bWVyIGPDsyB0w61uaCBk4bq7byAoYmnhur9uIGThuqFuZyBraGkgY2jhu4t1IHTDoWMgZOG7pW5nIGPhu6dhIG5oaeG7h3QsIMOhcCBzdeG6pXQgdsOgIGdp4buvIG5ndXnDqm4gc+G7sSBiaeG6v24gZOG6oW5nIMSRw7MpLiJ9LCB7ImEiOiAiRCIsICJlIjogIlRo4buneSB0aW5oIGjhu691IGPGoSBwbGV4aWdsYXMgbMOgIHBvbHkobWV0aHlsIG1ldGhhY3J5bGF0ZSkgKFBNTUEpLiJ9LCB7ImEiOiAiQyIsICJlIjogIk55bG9uLTYsNiBsw6AgdMahIHThu5VuZyBo4bujcDsgdMahIHThurFtLCBiw7RuZyBsw6AgdMahIHRoacOqbiBuaGnDqm47IHTGoSB2aXNjbyBsw6AgdMahIGLDoW4gdOG7lW5nIGjhu6NwLiJ9LCB7ImEiOiAiQiIsICJlIjogIkNhbyBzdSB0aGnDqm4gbmhpw6puIGzDoCBwb2x5aXNvcHJlbmUsIMSRxrDhu6NjIHThuqFvIHThu6sgY8OhYyBt4bqvdCB4w61jaCBpc29wcmVuZS4ifSwgeyJhIjogIkQiLCAiZSI6ICJDb21wb3NpdGUgZ+G7k20gduG6rXQgbGnhu4d1IG7hu4FuICh0aMaw4budbmcgbMOgIHBvbHltZXIpIHbDoCB24bqtdCBsaeG7h3UgY+G7kXQgKHPhu6NpLCBi4buZdCwg4oCmKS4ifSwgeyJhIjogIkQiLCAiZSI6ICJI4buTIHRpbmggYuG7mXQgxJHGsOG7o2MgxJFp4buBdSBjaOG6vyB04burIHRpbmggYuG7mXQgKG5ndeG7k24gZ+G7kWMgdOG7sSBuaGnDqm4pOyBjw6FjIGtlbyBjw7JuIGzhuqFpIGzDoCBrZW8gdOG7lW5nIGjhu6NwLiJ9LCB7ImEiOiAiQSIsICJlIjogIkzGsHUgaMOzYSBsw6AgxJF1biBuw7NuZyBjYW8gc3UgdGjDtCB24bubaSBsxrB1IGh14buzbmgsIHThuqFvIGPhuqd1IG7hu5FpIOKAk1PigJNT4oCTIGdp4buvYSBjw6FjIG3huqFjaC4ifSwgeyJhIjogIkIiLCAiZSI6ICJI4bqndSBo4bq/dCBwb2x5bWVyIGzDoCBjaOG6pXQgcuG6r24sIGtow7RuZyBiYXkgaMahaSwgbmhp4buBdSBwb2x5bWVyIGtow7RuZyBjw7Mgbmhp4buHdCDEkeG7mSBuw7NuZyBjaOG6o3kgeMOhYyDEkeG7i25oIHbDoCB0aMaw4budbmcga2jDtG5nIGThuqtuIMSRaeG7h24uIn0sIHsiYSI6ICJEIiwgImUiOiAiTnlsb24tNiw2IMSRxrDhu6NjIHThuqFvIHThu6sgaGV4YW1ldGh5bGVuZWRpYW1pbmUgdsOgIGFkaXBpYyBhY2lkLCDEkeG7k25nIHRo4budaSBnaeG6o2kgcGjDs25nIEjigoJPLiJ9LCB7ImEiOiAiQSIsICJlIjogIk55bG9uLTYgxJHGsOG7o2MgxJFp4buBdSBjaOG6vyBi4bqxbmcgdHLDuW5nIGjhu6NwICht4bufIHbDsm5nKSBjYXByb2xhY3RhbS4ifSwgeyJhIjogIkMiLCAiZSI6ICJUxqEgbml0cm9uIGzDoCBwb2x5YWNyeWxvbml0cmlsZSwgbW9ub21lciBsw6AgYWNyeWxvbml0cmlsZSBDSOKCgj1DSOKAk0NOLiJ9LCB7ImEiOiAiQiIsICJlIjogIkNhbyBzdSBidW5hIGzDoCBz4bqjbiBwaOG6qW0gdHLDuW5nIGjhu6NwIGJ1dGEtMSwzLWRpZW5lIENI4oKCPUNI4oCTQ0g9Q0jigoIuIn0sIHsiYSI6ICJDIiwgImUiOiAiQ2jhuqV0IGThurtvIGfhu5NtIHBvbHltZXIgbMOgIHRow6BuaCBwaOG6p24gY2jDrW5oLCBjw7MgdGjhu4MgdGjDqm0gY2jhuqV0IGjDs2EgZOG6u28sIGNo4bqldCDEkeG7mW4sIGNo4bqldCBtw6B1LCDigKYifSwgeyJhIjogIkEiLCAiZSI6ICJDYW8gc3UgbMawdSBow7NhIGPDsyBjw6FjIGPhuqd1IG7hu5FpIOKAk1PigJNT4oCTIG7hu5FpIGPDoWMgbeG6oWNoIHThuqFvIG3huqFuZyBraMO0bmcgZ2lhbjsgUEUsIFBWQywgYW15bG9zZSBjw7MgbeG6oWNoIGtow7RuZyBwaMOibiBuaMOhbmguIn0sIHsiYSI6ICJEIiwgImUiOiAiTnlsb24tNiw2LCBueWxvbi02IHbDoCBuaXRyb24gxJHhu4F1IGzDoCB0xqEgdOG7lW5nIGjhu6NwLiBUxqEgdOG6sW0sIGLDtG5nLCBsZW4gbMOgIHTGoSB0aGnDqm4gbmhpw6puOyB2aXNjbywgY2VsbHVsb3NlIGFjZXRhdGUgbMOgIHTGoSBiw6FuIHThu5VuZyBo4bujcC4ifSwgeyJhIjogIkIiLCAiZSI6ICJUcsO5bmcgaOG7o3AgY2jhu4kgbeG7nyBsacOqbiBr4bq/dCDEkcO0aSwga2jDtG5nIHTDoWNoIHBow6JuIHThu60gbmjhu486IG5DSOKCgj1DSENsIOKGkiAo4oCTQ0jigoLigJNDSENs4oCTKeKCmS4ifSwgeyJhIjogIkIiLCAiZSI6ICJUaOG7p3kgcGjDom4gdGluaCBi4buZdCBsw6BtIMSR4bupdCBt4bqhY2ggcG9seW1lciB0aMOgbmggY8OhYyBwaMOibiB04butIG5o4buPIChnbHVjb3NlKS4gTMawdSBow7NhIGzDoCB0xINuZyBt4bqhY2g7IGNsbyBow7NhIFBWQyBnaeG7ryBuZ3V5w6puIG3huqFjaC4ifSwgeyJhIjogIkMiLCAiZSI6ICJQb2x5KGV0aHlsZW5lIHRlcmVwaHRoYWxhdGUpIMSRxrDhu6NjIHThuqFvIHThu6sgZXRoeWxlbmUgZ2x5Y29sIHbDoCB0ZXJlcGh0aGFsaWMgYWNpZC4ifSwgeyJhIjogIkEiLCAiZSI6ICJDYW8gc3UgdGhpw6puIG5oacOqbiBsw6AgcG9seWlzb3ByZW5lLCDEkcOgbiBo4buTaS4gQnVuYSDEkWnhu4F1IGNo4bq/IGLhurFuZyB0csO5bmcgaOG7o3A7IGNhbyBzdSBsxrB1IGjDs2EgY8OzIGPhuqV1IHRyw7pjIG3huqFuZyBraMO0bmcgZ2lhbi4ifSwgeyJhIjogIkQiLCAiZSI6ICJMacOqbiBr4bq/dCBhbWlkZSDigJNDT+KAk05I4oCTIGLhu4sgdGjhu6d5IHBow6JuIHRyb25nIG3DtGkgdHLGsOG7nW5nIGFjaWQgaG/hurdjIGtp4buBbSBsw6BtIGjhu49uZyB0xqEuIn0sIHsiYSI6ICJDIiwgImUiOiAixJDDsyBsw6AgxJHhu4tuaCBuZ2jEqWEgY+G7p2Ega2VvIGTDoW4uIn0sIHsiYSI6ICJBIiwgImUiOiAiVuG6rXQgbGnhu4d1IGPhu5F0IGdp4buvIHZhaSB0csOyIGNo4buLdSBs4buxYzsgduG6rXQgbGnhu4d1IG7hu4FuIGxpw6puIGvhur90IGPDoWMgcGjhuqduIHThu60gY+G7kXQuIn0sIHsiYSI6ICJEIiwgImUiOiAiQnVuYS1OIGzDoCBz4bqjbiBwaOG6qW0gxJHhu5NuZyB0csO5bmcgaOG7o3AgYnV0YS0xLDMtZGllbmUgduG7m2kgYWNyeWxvbml0cmlsZSAoTiBjaOG7iSBuaXRyaWxlKS4ifSwgeyJhIjogIkIiLCAiZSI6ICJH4buTbSBwb2x5ZXRoeWxlbmUsIFBWQywgcG9seXN0eXJlbmUsIFBNTUEgKDQgcG9seW1lcikuIFRpbmggYuG7mXQgbMOgIHBvbHltZXIgdGhpw6puIG5oacOqbjsgbnlsb24tNiw2IMSRaeG7gXUgY2jhur8gYuG6sW5nIHRyw7luZyBuZ8awbmcuIn0sIHsiYSI6ICJCIiwgImUiOiAiTeG6r3QgeMOtY2gg4oCTQ0jigoLigJNDSENs4oCTIGPDsyBNID0gNjIsNSDihpIgbiA9IDYyNSAwMDAgOiA2Miw1ID0gMTAgMDAwLiJ9LCB7ImEiOiAiRCIsICJlIjogIkto4buRaSBsxrDhu6NuZyBQRSA9IGto4buRaSBsxrDhu6NuZyBldGh5bGVuZSBwaOG6o24g4bupbmcgPSAxNCDDlyAwLDg1ID0gMTEsOSB04bqlbi4ifSwgeyJhIjogIkEiLCAiZSI6ICJN4bqvdCB4w61jaCBD4oKB4oKCSOKCguKCgk7igoJP4oKCIGPDsyBNID0gMjI2IOKGkiBuID0gMjcgMTIwIDogMjI2ID0gMTIwLiJ9LCB7ImEiOiAiQyIsICJlIjogIm0odmlueWwgY2hsb3JpZGUpID0gMSwwMCA6IDAsODAgPSAxLDI1IHThuqVuLiJ9LCB7ImEiOiAiQiIsICJlIjogImsgbeG6r3QgeMOtY2ggQ+KChUjigog6IGto4buRaSBsxrDhu6NuZyA9IDY4ayDiiJIgMiArIDY0ID0gNjhrICsgNjIuIFRhIGPDsyA2NC8oNjhrICsgNjIpID0gMCwwMiDihpIgNjhrICsgNjIgPSAzMjAwIOKGkiBrIOKJiCA0Ni4ifSwgeyJhIjogIkEiLCAiZSI6ICJuKEJy4oKCKSA9IDAsMSBtb2wgPSBuKG3huq90IHjDrWNoIGJ1dGFkaWVuZSkg4oaSIDAsMSDDlyA1NCA9IDUsNCBnLiBtKHN0eXJlbmUpID0gMjYsMiDiiJIgNSw0ID0gMjAsOCBnIOKGkiAwLDIgbW9sLiBU4buJIGzhu4cgMCwxIDogMCwyID0gMSA6IDIuIn0sIHsiYSI6ICJDIiwgImUiOiAiKEPigoJI4oKDQ2wp4oKWICsgQ2zigoIg4oaSIEPigoLigpZI4oKD4oKW4oKL4oKBQ2zigpbigorigoEgKyBIQ2wuICVDbCA9IDM1LDUoaysxKS8oNjIsNWsgKyAzNCw1KSA9IDAsNjM5NiDihpIgayA9IDMuIn0sIHsiYSI6ICJEIiwgImUiOiAiTeG7l2kgbeG6r3QgeMOtY2ggbnlsb24tNiw2IChNID0gMjI2KSDhu6luZyB24bubaSAxIHBow6JuIHThu60gYWRpcGljIGFjaWQuIG0gbMOtIHRodXnhur90ID0gMiwyNiDDlyAxNDYvMjI2ID0gMSw0NiB04bqlbjsgdGjhu7FjIHThur8gPSAxLDQ2IDogMCw4ID0gMSw4MjUgdOG6pW4uIn0sIHsiYSI6ICJCIiwgImUiOiAiUHJvdGVpbiAodMahIHThurFtKSBraGkgY2jDoXkgY8OzIG3DuWkga2jDqXQgbmjGsCB0w7NjIGNow6F5OyBjZWxsdWxvc2UgKGLDtG5nKSBjaMOheSBjw7MgbcO5aSBnaeG6pXkgY2jDoXkuIn0sIHsiYSI6ICJDIiwgImUiOiAiWCBsw6AgUE1NQSAodGjhu6d5IHRpbmggaOG7r3UgY8ahKSwgWSBsw6AgUEUsIFogbMOgIFBWQy4ifSwgeyJhIjogIkEiLCAiZSI6ICJNIG3huq90IHjDrWNoID0gNDIwIDAwMCA6IDEwIDAwMCA9IDQyIOKGkiDigJNDSOKCguKAk0NIKENI4oKDKeKAkyAoQ+KCg0jigoYpIOKGkiBwb2x5cHJvcHlsZW5lLiJ9LCB7ImEiOiAiRCIsICJlIjogIm4oQ0/igoIpID0gMCwxNSBtb2wg4oaSIG4oQ+KCg0jigoYpID0gMCwwNSBtb2wg4oaSIG0gPSAwLDA1IMOXIDQyID0gMiwxMCBnLiJ9XQ==";
+const DURATION = 50*60;
+const $ = id => document.getElementById(id);
+let answers = new Array(PUB.length).fill(null);
+let left = DURATION, tick = null, submitted = false, info = {};
+
+function decodeSec(){
+  const bin = atob(SEC_B64);
+  const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+const L = ["A","B","C","D"];
+
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+function build(){
+  $("qs").innerHTML = PUB.map((q,i)=>`
+   <div class="q" id="q${i}">
+     <div class="meta">Câu ${i+1} · ${q.t} · Mức độ: ${q.l}</div>
+     <div class="stem">Câu ${i+1}. ${esc(q.q)}</div>
+     ${q.o.map((o,j)=>`<label class="opt" id="o${i}_${j}"><input type="radio" name="q${i}" value="${j}"><span><b>${L[j]}.</b> ${esc(o)}</span></label>`).join("")}
+     <div class="exp hide" id="e${i}"></div>
+   </div>`).join("");
+  $("nav").innerHTML = PUB.map((_,i)=>`<a href="#q${i}" id="n${i}">${i+1}</a>`).join("");
+  document.querySelectorAll('#qs input[type=radio]').forEach(r=>{
+    r.addEventListener('change',()=>{
+      if(submitted) return;
+      const i = +r.name.slice(1), j = +r.value;
+      answers[i]=j;
+      for(let k=0;k<4;k++) $("o"+i+"_"+k).classList.toggle("sel",k===j);
+      $("n"+i).classList.add("done");
+      $("cnt").textContent = answers.filter(a=>a!==null).length;
+    });
+  });
+}
+
+function fmt(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+
+function start(){
+  const name = $("name").value.trim();
+  if(!name){$("err").style.display="block";$("name").focus();return}
+  info = {name, cls:$("cls").value.trim(), sbd:$("sbd").value.trim()};
+  $("who").textContent = info.name + (info.cls?" · "+info.cls:"") + (info.sbd?" · SBD "+info.sbd:"");
+  $("intro").classList.add("hide"); $("exam").classList.remove("hide");
+  build(); $("timer").textContent = fmt(left);
+  tick = setInterval(()=>{
+    left--; $("timer").textContent = fmt(Math.max(left,0));
+    if(left<=300) $("timer").classList.add("low");
+    if(left<=0) finish(true);
+  },1000);
+  window.addEventListener("beforeunload",e=>{ if(!submitted){e.preventDefault();e.returnValue=""} });
+}
+
+function finish(auto){
+  if(submitted) return;
+  const un = answers.filter(a=>a===null).length;
+  if(!auto && un>0 && !confirm("Bạn còn "+un+" câu chưa làm. Vẫn nộp bài?")) return;
+  submitted = true; clearInterval(tick);
+  const sec = decodeSec();
+  let right = 0; const byL = {}, byT = {};
+  PUB.forEach((q,i)=>{
+    const ok = answers[i]!==null && L[answers[i]]===sec[i].a;
+    if(ok) right++;
+    for(const [m,k] of [[byL,q.l],[byT,q.t]]){ m[k]=m[k]||[0,0]; m[k][1]++; if(ok) m[k][0]++; }
+    const ci = L.indexOf(sec[i].a);
+    $("o"+i+"_"+ci).classList.add("correct");
+    if(answers[i]!==null && !ok) $("o"+i+"_"+answers[i]).classList.add("incorrect");
+    $("n"+i).className = ok?"right":"wrong";
+    const e = $("e"+i); e.classList.remove("hide");
+    e.innerHTML = "<b>Đáp án: "+sec[i].a+".</b> "+(answers[i]===null?"(Bạn chưa chọn) ":"")+esc(sec[i].e);
+    $("q"+i).classList.add("locked");
+  });
+  document.querySelectorAll('#qs input').forEach(r=>r.disabled=true);
+  const score = (right*0.25).toFixed(2).replace(".",",");
+  const rows = m => Object.entries(m).map(([k,v])=>`<tr><td>${k}</td><td>${v[0]}/${v[1]}</td></tr>`).join("");
+  const r = $("result"); r.classList.remove("hide");
+  r.innerHTML = `<div class="sub">${esc(info.name)}${info.cls?" · "+esc(info.cls):""}${info.sbd?" · SBD "+esc(info.sbd):""}</div>
+   <div class="score">${score}/10</div>
+   <div>Đúng ${right}/40 câu · Sai ${40-right-un} · Chưa làm ${un}${auto?" · (Hết giờ, bài đã tự động nộp)":""}</div>
+   <table><tr><th>Mức độ</th><th>Số câu đúng</th></tr>${rows(byL)}</table>
+   <table><tr><th>Chủ đề</th><th>Số câu đúng</th></tr>${rows(byT)}</table>
+   <p><button id="print" class="sec">In / Lưu PDF</button></p>`;
+  $("print").onclick = ()=>window.print();
+  $("submit").disabled = true; $("bottom").classList.add("hide");
+  $("timer").textContent = "Đã nộp";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+$("start").onclick = start;
+$("submit").onclick = $("submit2").onclick = ()=>finish(false);
+</script>
+</body>
+</html>
